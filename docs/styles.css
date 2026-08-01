@@ -371,17 +371,23 @@ span {
 }
 
 .hero-copy {
-  max-width: 46rem;
+  max-width: 42rem;
   padding: clamp(1rem, 2vw, 1.75rem) 0;
 }
 
 .hero-copy h1 {
-  font-size: clamp(2.7rem, 5.4vw, 5.15rem);
+  max-width: 12ch;
+  font-size: clamp(3.2rem, 6.2vw, 6.1rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
 }
 
 .hero-copy .scene-subtitle {
-  max-width: 38rem;
-  font-size: clamp(0.98rem, 1.18vw, 1.08rem);
+  max-width: 24rem;
+  margin-top: 1.15rem;
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-weight: 300;
+  letter-spacing: 0.035em;
 }
 
 .hero-band {
@@ -1120,23 +1126,26 @@ figcaption,
 .contact-simple-list {
   position: relative;
   z-index: 2;
-  width: min(100%, 38rem);
+  width: min(100%, 31rem);
   margin: 0;
   padding: 0;
   display: grid;
-  gap: clamp(1.6rem, 3vw, 2.4rem);
+  gap: clamp(1.1rem, 2vw, 1.5rem);
 }
 
 .contact-simple-list div {
   display: grid;
-  gap: 0.35rem;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 2vw, 1.75rem);
 }
 
 .contact-simple-list dt {
   color: var(--soft);
-  font-size: 0.64rem;
+  padding-top: 0.38rem;
+  font-size: 0.56rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
@@ -1148,10 +1157,11 @@ figcaption,
 .contact-simple-list address,
 .contact-simple-list a {
   color: var(--text);
-  font-size: clamp(1.16rem, 2vw, 1.6rem);
-  font-weight: 400;
-  line-height: 1.38;
-  letter-spacing: -0.025em;
+  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  font-size: clamp(0.9rem, 1.15vw, 1.04rem);
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0.018em;
 }
 
 .contact-simple-list address,
@@ -1412,6 +1422,11 @@ figcaption,
     padding-bottom: 0.5rem;
   }
 
+  .hero-copy h1 {
+    max-width: 10ch;
+    font-size: clamp(2.8rem, 13vw, 3.7rem);
+  }
+
   .hero-band {
     flex-wrap: nowrap;
     max-width: calc(100vw - 0.75rem);
@@ -1492,13 +1507,18 @@ figcaption,
 
   .contact-simple-list {
     width: 100%;
-    gap: 1.55rem;
+    gap: 1.15rem;
+  }
+
+  .contact-simple-list div {
+    grid-template-columns: 3.75rem minmax(0, 1fr);
+    gap: 0.9rem;
   }
 
   .contact-simple-list dd,
   .contact-simple-list address,
   .contact-simple-list a {
-    font-size: clamp(1.05rem, 5.4vw, 1.24rem);
+    font-size: clamp(0.86rem, 3.7vw, 0.98rem);
   }
 
   .feature-media-surface-shell .feature-media-surface-image {

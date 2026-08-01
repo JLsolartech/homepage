@@ -1502,3 +1502,93 @@ figcaption,
     overflow-wrap: anywhere;
   }
 }
+
+
+/* Mobile image containment */
+@media (max-width: 760px) {
+  .hero-layout,
+  .product-hero-layout,
+  .gallery-layout,
+  .split-layout,
+  .stage-grid,
+  .design-layout,
+  .performance-layout {
+    gap: 1.5rem;
+  }
+
+  .hero-copy,
+  .gallery-copy,
+  .feature-copy,
+  .design-copy,
+  .story-card {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .gallery-stage,
+  .media-shell,
+  .feature-media-shell,
+  .homepage-feature-shell,
+  .feature-media-tooling-shell,
+  .product-design-single-media,
+  .design-single-media {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .homepage-feature-shell,
+  .feature-media-tooling-shell,
+  .feature-media-surface-shell,
+  .product-design-single-media,
+  .design-single-media {
+    min-height: clamp(17rem, 68vw, 23rem);
+  }
+
+  .homepage-feature-shell .homepage-feature-image,
+  .feature-media-tooling-shell .feature-media-tooling-image,
+  .feature-media-surface-shell .feature-media-surface-image,
+  .product-design-single-image,
+  .design-single-media .design-emphasis-image {
+    width: 100%;
+    max-width: 100%;
+    height: clamp(17rem, 68vw, 23rem);
+    max-height: 100%;
+    margin: 0;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+  }
+
+  .homepage-feature-shell:hover .homepage-feature-image,
+  .homepage-feature-shell:focus-within .homepage-feature-image,
+  .feature-media-tooling-shell:hover .feature-media-tooling-image,
+  .feature-media-tooling-shell:focus-within .feature-media-tooling-image,
+  .feature-media-surface-shell:hover .feature-media-surface-image,
+  .feature-media-surface-shell:focus-within .feature-media-surface-image,
+  .product-design-single-media:hover .product-design-single-image,
+  .product-design-single-media:focus-within .product-design-single-image,
+  .design-single-media:hover .design-emphasis-image,
+  .design-single-media:focus-within .design-emphasis-image {
+    transform: none;
+  }
+
+  .split-layout-reverse > :first-child,
+  .split-layout-reverse > :last-child {
+    order: initial;
+  }
+
+  .feature-copy-surface {
+    margin-left: 0;
+  }
+
+  .footer-links-home a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}

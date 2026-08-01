@@ -1,6 +1,13 @@
 const revealItems = document.querySelectorAll(".reveal");
 const parallaxItems = document.querySelectorAll("[data-parallax], [data-zoom]");
 
+revealItems.forEach((item) => {
+  const rect = item.getBoundingClientRect();
+  if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+    item.classList.add("is-visible");
+  }
+});
+
 if ("IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver(
     (entries) => {
@@ -17,10 +24,18 @@ if ("IntersectionObserver" in window) {
     }
   );
 
-  revealItems.forEach((item) => revealObserver.observe(item));
+  revealItems.forEach((item) => {
+    if (!item.classList.contains("is-visible")) {
+      revealObserver.observe(item);
+    }
+  });
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
+
+// Apply enhanced reveal styles only after the fallback-visible state is ready.
+// If this file fails to load, all content remains visible.
+document.documentElement.classList.add("js");
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -72,7 +87,12 @@ galleries.forEach((gallery) => {
   const current = section.querySelector("[data-gallery-current]");
   const total = section.querySelector("[data-gallery-total]");
   let index = slides.findIndex((slide) => slide.classList.contains("is-active"));
-  let wheelReady = true;
+  let touchStartX = null;
+  let touchStartY = null;
+
+  if (!slides.length) {
+    return;
+  }
 
   if (index < 0) {
     index = 0;
@@ -80,7 +100,10 @@ galleries.forEach((gallery) => {
 
   const render = () => {
     slides.forEach((slide, slideIndex) => {
-      slide.classList.toggle("is-active", slideIndex === index);
+      const isActive = slideIndex === index;
+      slide.classList.toggle("is-active", isActive);
+      slide.setAttribute("aria-hidden", String(!isActive));
+      slide.setAttribute("aria-label", `${slideIndex + 1} of ${slides.length}`);
     });
 
     const active = slides[index];
@@ -106,33 +129,46 @@ galleries.forEach((gallery) => {
   prevButton?.addEventListener("click", () => step(-1));
   nextButton?.addEventListener("click", () => step(1));
 
+  gallery.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      step(-1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      step(1);
+    }
+  });
+
   gallery.addEventListener(
-    "wheel",
+    "touchstart",
     (event) => {
-      if (!wheelReady || Math.abs(event.deltaY) < 12) {
+      const touch = event.changedTouches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    },
+    { passive: true }
+  );
+
+  gallery.addEventListener(
+    "touchend",
+    (event) => {
+      if (touchStartX === null || touchStartY === null) {
         return;
       }
 
-      event.preventDefault();
-      wheelReady = false;
-      step(event.deltaY > 0 ? 1 : -1);
-      window.setTimeout(() => {
-        wheelReady = true;
-      }, 420);
-    },
-    { passive: false }
-  );
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+      touchStartX = null;
+      touchStartY = null;
 
-  window.addEventListener("keydown", (event) => {
-    if (document.body.contains(gallery)) {
-      if (event.key === "ArrowLeft") {
-        step(-1);
+      if (Math.abs(deltaX) >= 45 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        step(deltaX < 0 ? 1 : -1);
       }
-      if (event.key === "ArrowRight") {
-        step(1);
-      }
-    }
-  });
+    },
+    { passive: true }
+  );
 
   render();
 });

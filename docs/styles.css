@@ -1592,3 +1592,46 @@ figcaption,
     overflow-wrap: anywhere;
   }
 }
+
+
+/* Mobile stacking safeguard */
+@media (max-width: 760px) {
+  .scene {
+    isolation: isolate;
+  }
+
+  .photo-fill,
+  .scene-glow,
+  .hero-aura {
+    z-index: 0;
+  }
+
+  .scene-scrim {
+    z-index: 1;
+  }
+
+  .scene-inner {
+    z-index: 3;
+  }
+
+  .hero-copy,
+  .gallery-copy,
+  .feature-copy,
+  .design-copy,
+  .story-card,
+  .contact-simple-copy {
+    position: relative;
+    z-index: 20 !important;
+    transform: translateZ(0);
+  }
+
+  .gallery-stage,
+  .media-shell,
+  .stage-cards,
+  .design-cluster,
+  .performance-visual {
+    position: relative;
+    z-index: 1 !important;
+    contain: paint;
+  }
+}

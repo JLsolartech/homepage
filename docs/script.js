@@ -1,13 +1,6 @@
 const revealItems = document.querySelectorAll(".reveal");
 const parallaxItems = document.querySelectorAll("[data-parallax], [data-zoom]");
 
-revealItems.forEach((item) => {
-  const rect = item.getBoundingClientRect();
-  if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
-    item.classList.add("is-visible");
-  }
-});
-
 if ("IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver(
     (entries) => {
@@ -24,18 +17,10 @@ if ("IntersectionObserver" in window) {
     }
   );
 
-  revealItems.forEach((item) => {
-    if (!item.classList.contains("is-visible")) {
-      revealObserver.observe(item);
-    }
-  });
+  revealItems.forEach((item) => revealObserver.observe(item));
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
-
-// Apply enhanced reveal styles only after the fallback-visible state is ready.
-// If this file fails to load, all content remains visible.
-document.documentElement.classList.add("js");
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -61,7 +46,7 @@ function updateParallax() {
 }
 
 function requestParallax() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 760px)").matches) {
     return;
   }
 
@@ -87,12 +72,9 @@ galleries.forEach((gallery) => {
   const current = section.querySelector("[data-gallery-current]");
   const total = section.querySelector("[data-gallery-total]");
   let index = slides.findIndex((slide) => slide.classList.contains("is-active"));
+  let wheelReady = true;
   let touchStartX = null;
   let touchStartY = null;
-
-  if (!slides.length) {
-    return;
-  }
 
   if (index < 0) {
     index = 0;
@@ -100,10 +82,7 @@ galleries.forEach((gallery) => {
 
   const render = () => {
     slides.forEach((slide, slideIndex) => {
-      const isActive = slideIndex === index;
-      slide.classList.toggle("is-active", isActive);
-      slide.setAttribute("aria-hidden", String(!isActive));
-      slide.setAttribute("aria-label", `${slideIndex + 1} of ${slides.length}`);
+      slide.classList.toggle("is-active", slideIndex === index);
     });
 
     const active = slides[index];
@@ -129,16 +108,22 @@ galleries.forEach((gallery) => {
   prevButton?.addEventListener("click", () => step(-1));
   nextButton?.addEventListener("click", () => step(1));
 
-  gallery.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") {
+  gallery.addEventListener(
+    "wheel",
+    (event) => {
+      if (!wheelReady || Math.abs(event.deltaY) < 12) {
+        return;
+      }
+
       event.preventDefault();
-      step(-1);
-    }
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      step(1);
-    }
-  });
+      wheelReady = false;
+      step(event.deltaY > 0 ? 1 : -1);
+      window.setTimeout(() => {
+        wheelReady = true;
+      }, 420);
+    },
+    { passive: false }
+  );
 
   gallery.addEventListener(
     "touchstart",
@@ -163,12 +148,23 @@ galleries.forEach((gallery) => {
       touchStartX = null;
       touchStartY = null;
 
-      if (Math.abs(deltaX) >= 45 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY)) {
         step(deltaX < 0 ? 1 : -1);
       }
     },
     { passive: true }
   );
+
+  window.addEventListener("keydown", (event) => {
+    if (document.body.contains(gallery)) {
+      if (event.key === "ArrowLeft") {
+        step(-1);
+      }
+      if (event.key === "ArrowRight") {
+        step(1);
+      }
+    }
+  });
 
   render();
 });

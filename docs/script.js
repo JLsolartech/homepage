@@ -46,7 +46,7 @@ function updateParallax() {
 }
 
 function requestParallax() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 760px)").matches) {
     return;
   }
 
@@ -73,6 +73,8 @@ galleries.forEach((gallery) => {
   const total = section.querySelector("[data-gallery-total]");
   let index = slides.findIndex((slide) => slide.classList.contains("is-active"));
   let wheelReady = true;
+  let touchStartX = null;
+  let touchStartY = null;
 
   if (index < 0) {
     index = 0;
@@ -121,6 +123,36 @@ galleries.forEach((gallery) => {
       }, 420);
     },
     { passive: false }
+  );
+
+  gallery.addEventListener(
+    "touchstart",
+    (event) => {
+      const touch = event.changedTouches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    },
+    { passive: true }
+  );
+
+  gallery.addEventListener(
+    "touchend",
+    (event) => {
+      if (touchStartX === null || touchStartY === null) {
+        return;
+      }
+
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+      touchStartX = null;
+      touchStartY = null;
+
+      if (Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        step(deltaX < 0 ? 1 : -1);
+      }
+    },
+    { passive: true }
   );
 
   window.addEventListener("keydown", (event) => {

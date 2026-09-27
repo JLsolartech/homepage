@@ -54,6 +54,24 @@ body::before {
 img {
   display: block;
   max-width: 100%;
+  height: auto;
+}
+
+/* <picture> wrappers must not change the existing image layout rules. */
+picture {
+  display: contents;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 a {
@@ -234,13 +252,24 @@ button {
 
 .photo-fill {
   inset: -6%;
-  background-image:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(5, 7, 10, 0.18)),
-    var(--image);
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
+  background-color: #0a1016;
   transform: translate3d(0, var(--parallax-y, 0), 0) scale(var(--parallax-scale, 1.06));
-  will-change: transform;
+}
+
+.photo-fill img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.photo-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(5, 7, 10, 0.18));
 }
 
 .hero-photo-fill {
@@ -257,6 +286,9 @@ button {
 
 .parallax-target {
   transform: translate3d(0, var(--parallax-y, 0), 0) scale(var(--parallax-scale, 1));
+}
+
+.parallax-on .parallax-target {
   will-change: transform;
 }
 
@@ -546,7 +578,22 @@ figcaption,
   border-radius: 0;
   background: none;
   overflow: visible;
-  cursor: ew-resize;
+  touch-action: pan-y;
+}
+
+.gallery-stage:focus {
+  outline: none;
+}
+
+.gallery-stage:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 0.75rem;
+  border-radius: 1rem;
+}
+
+html:not(.js-ready) .gallery-controls,
+html:not(.js-ready) .gallery-note {
+  visibility: hidden;
 }
 
 .gallery-stage::before {
@@ -1190,14 +1237,131 @@ figcaption,
   transform: translateY(0);
 }
 
-@media (min-width: 960px) {
-  html {
-    scroll-snap-type: y proximity;
+/* Failsafe: if the main script never finishes initialising, reveal content anyway. */
+.js:not(.js-ready) .reveal {
+  animation: reveal-failsafe 0.6s ease 3.5s forwards;
+}
+
+@keyframes reveal-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Process: static two-column fallback (no JS, tablets, reduced motion). */
+.process-scene {
+  display: block;
+}
+
+.process-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  row-gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.process-index span {
+  display: inline-block;
+  margin-right: 0.7em;
+  color: var(--paper);
+}
+
+.process-meter {
+  display: none;
+}
+
+/* Process: desktop sticky enhancement, enabled by script.js only. */
+@media (min-width: 1081px) and (min-height: 640px) {
+  .process-scene.is-enhanced {
+    --process-media-h: min(74vh, 46rem);
+    --process-step-h: 54vh;
+    padding: calc((100vh - var(--process-step-h)) / 2) 0;
   }
 
-  .scene,
-  .site-footer {
-    scroll-snap-align: start;
+  .process-scene.is-enhanced .process-layout {
+    align-items: start;
+    row-gap: 0;
+  }
+
+  .process-scene.is-enhanced .process-step {
+    grid-column: 1;
+    min-height: var(--process-step-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.3;
+    transform: translate3d(0, 1.25rem, 0);
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .process-scene.is-enhanced .process-step:nth-of-type(1) { grid-row: 1; }
+  .process-scene.is-enhanced .process-step:nth-of-type(2) { grid-row: 2; }
+  .process-scene.is-enhanced .process-step:nth-of-type(3) { grid-row: 3; }
+  .process-scene.is-enhanced .process-step:nth-of-type(4) { grid-row: 4; }
+
+  .process-scene.is-enhanced .process-step h2 {
+    font-size: clamp(2.1rem, 3.4vw, 3.6rem);
+  }
+
+  .process-scene.is-enhanced .process-step p:not(.eyebrow) {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0);
+    transition: opacity 0.5s ease 0.08s, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s;
+  }
+
+  .process-scene.is-enhanced .process-step.is-active {
+    opacity: 1;
+    transform: none;
+  }
+
+  .process-scene.is-enhanced .process-step.is-active p:not(.eyebrow) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .process-scene.is-enhanced .process-media,
+  .process-scene.is-enhanced .process-meter {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: start;
+    position: sticky;
+    top: calc((100vh - var(--process-media-h)) / 2);
+    height: var(--process-media-h);
+    min-height: 0;
+  }
+
+  .process-scene.is-enhanced .process-media {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+  }
+
+  .process-scene.is-enhanced .process-media.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s ease, visibility 0s linear 0s;
+  }
+
+  .process-scene.is-enhanced .process-meter {
+    grid-column: 1;
+    justify-self: start;
+    display: block;
+    width: 1px;
+    transform: translateX(-1.25rem);
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .process-scene.is-enhanced .process-meter span {
+    display: block;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(216, 225, 234, 0.9));
+    transform: scaleY(0);
+    transform-origin: center top;
   }
 }
 
@@ -1209,6 +1373,7 @@ figcaption,
   .stage-grid,
   .design-layout,
   .performance-layout,
+  .process-layout,
   .footer-inner {
     grid-template-columns: 1fr;
   }
@@ -1394,7 +1559,6 @@ figcaption,
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-    scroll-snap-type: none;
   }
 
   .parallax-target,

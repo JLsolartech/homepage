@@ -159,6 +159,7 @@ def test_keyboard_scroll_and_gallery_focus(ctx_factory, base_url, viewport_name)
     page.mouse.click(box["x"] + 4, box["y"] + box["height"] / 2)
     y0 = settle(page)
     page.keyboard.press("PageDown")
+    page.wait_for_function("(y0) => window.scrollY > y0", arg=y0, timeout=3000)
     y1 = settle(page)
     assert y1 > y0
     page.keyboard.press("End")
@@ -300,6 +301,12 @@ def test_small_screens_use_static_layout(ctx_factory, base_url, vp):
     probe.assert_clean()
 
 
+def _wait_enhanced(page, expected, timeout=3000):
+    page.wait_for_function(
+        "(exp) => document.querySelector('[data-process]').classList.contains('is-enhanced') === exp",
+        arg=expected, timeout=timeout)
+
+
 def test_resize_orientation_and_reduced_motion_switching(ctx_factory, base_url):
     ctx = ctx_factory("desktop-1440")
     page = ctx.new_page()
@@ -312,7 +319,8 @@ def test_resize_orientation_and_reduced_motion_switching(ctx_factory, base_url):
     assert page.evaluate("document.querySelector('.hero-photo-fill').style.getPropertyValue('--parallax-y')") != ""
 
     page.set_viewport_size({"width": 390, "height": 844})
-    page.wait_for_timeout(200)
+    _wait_enhanced(page, False)
+    page.wait_for_function("() => document.querySelector('.hero-photo-fill').style.getPropertyValue('--parallax-y') === ''", timeout=3000)
     assert "is-enhanced" not in section.get_attribute("class")
     assert page.evaluate("document.querySelector('.hero-photo-fill').style.getPropertyValue('--parallax-y')") == ""
     assert no_horizontal_overflow(page)
@@ -323,18 +331,19 @@ def test_resize_orientation_and_reduced_motion_switching(ctx_factory, base_url):
     assert no_horizontal_overflow(page)
 
     page.set_viewport_size({"width": 1440, "height": 900})
-    page.wait_for_timeout(200)
+    _wait_enhanced(page, True)
     assert "is-enhanced" in section.get_attribute("class")
 
     page.emulate_media(reduced_motion="reduce")
-    page.wait_for_timeout(200)
+    _wait_enhanced(page, False)
+    page.wait_for_function("() => !document.documentElement.classList.contains('parallax-on')", timeout=3000)
     assert "is-enhanced" not in section.get_attribute("class")
     assert not page.evaluate("document.documentElement.classList.contains('parallax-on')")
     assert page.evaluate("getComputedStyle(document.querySelector('.hero-photo-fill')).transform") in ("none", "matrix(1, 0, 0, 1, 0, 0)")
     assert page.evaluate("Array.from(document.querySelectorAll('.reveal')).every((el) => getComputedStyle(el).opacity === '1')")
 
     page.emulate_media(reduced_motion="no-preference")
-    page.wait_for_timeout(200)
+    _wait_enhanced(page, True)
     assert "is-enhanced" in section.get_attribute("class")
     probe.assert_clean()
 
@@ -370,6 +379,10 @@ def test_content_visible_when_main_script_fails(ctx_factory, base_url, failure):
 
     page.route(re.compile(r"/script\.js"), handler)
     page.goto(base_url + "/")
-    # abort/500 trigger onerror immediately; a throwing script relies on the CSS failsafe (3.5s)
-    page.wait_for_timeout(600 if failure != "throws" else 4500)
-    assert _all_content_visible(page)
+    # abort usually fires onerror; some engines execute a 500 body as script, so visibility then
+    # comes from the load-event fallback or, at worst, the CSS failsafe (3.5s).
+    waited = 0
+    while not _all_content_visible(page) and waited < 5000:
+        page.wait_for_timeout(250)
+        waited += 250
+    assert _all_content_visible(page), f"content hidden {waited}ms after load ({failure})"

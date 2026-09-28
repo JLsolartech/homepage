@@ -69,24 +69,42 @@ def scroll_recording(browser, url: str, out: Path, version: str, view: str,
     if mobile:
         session = context.new_cdp_session(page)
         x = viewport["width"] / 2
-        y = viewport["height"] * 0.72
-        for direction in (-1, 1):
-            for _ in range(6):
+        height = viewport["height"]
+
+        def touch_scroll(direction: int) -> None:
+            start_y = height * (0.72 if direction < 0 else 0.24)
+            y_delta = direction * height * 0.48
+            session.send("Input.dispatchTouchEvent", {
+                "type": "touchStart",
+                "touchPoints": [{"x": x, "y": start_y}],
+            })
+            for step in range(1, 9):
                 session.send("Input.dispatchTouchEvent", {
-                    "type": "touchStart",
-                    "touchPoints": [{"x": x, "y": y}],
+                    "type": "touchMove",
+                    "touchPoints": [{"x": x, "y": start_y + y_delta * step / 8}],
                 })
-                for step in range(1, 9):
-                    session.send("Input.dispatchTouchEvent", {
-                        "type": "touchMove",
-                        "touchPoints": [{"x": x, "y": y + direction * step * 48}],
-                    })
-                    page.wait_for_timeout(16)
-                session.send("Input.dispatchTouchEvent", {
-                    "type": "touchEnd",
-                    "touchPoints": [],
-                })
-                page.wait_for_timeout(180)
+                page.wait_for_timeout(16)
+            session.send("Input.dispatchTouchEvent", {
+                "type": "touchEnd",
+                "touchPoints": [],
+            })
+            page.wait_for_timeout(180)
+
+        max_scroll = page.evaluate(
+            "document.documentElement.scrollHeight - window.innerHeight")
+        for direction, done in ((-1, lambda y: y >= max_scroll - 2),
+                                (1, lambda y: y <= 0)):
+            last_y = page.evaluate("window.scrollY")
+            stalled = 0
+            while not done(last_y) and stalled < 3:
+                before = last_y
+                touch_scroll(direction)
+                last_y = page.evaluate("window.scrollY")
+                stalled = stalled + 1 if last_y == before else 0
+            if not done(last_y):
+                raise RuntimeError(
+                    f"mobile touch scroll did not reach {'bottom' if direction < 0 else 'top'}; "
+                    f"scrollY={last_y}, max={max_scroll}")
         session.detach()
     else:
         for delta in (650, 650, 650, 650, 650, 650, -650, -650, -650, -650, -650, -650):

@@ -126,6 +126,7 @@ def test_product_gallery_lightbox_and_customer_copy(ctx_factory, base_url, vp):
     assert page.locator(".product-profile-scene [data-product-lightbox-link]").count() == 4
     assert page.locator(".product-design-scene img").get_attribute("alt")
     assert page.locator(".product-performance-scene img").count() == 1
+    assert page.locator(".site-footer a[href^='mailto:']").get_attribute("href") == "mailto:clients@jlsolartech.com"
     image_links = page.locator("[data-product-lightbox-link]")
     assert image_links.count() == 4
     assert page.locator("h1").inner_text() == "Aluminum Frames for Solar Modules"

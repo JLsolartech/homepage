@@ -1,0 +1,1154 @@
+{
+  "factory/20260318184938_644_41.jpg": {
+    "source": "factory/20260318184938_644_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 5448,
+    "height": 3544,
+    "source_bytes": 8741521,
+    "variants": [
+      {
+        "file": "20260318184938_644_41-640.avif",
+        "width": 640,
+        "height": 416,
+        "bytes": 6995
+      },
+      {
+        "file": "20260318184938_644_41-640.webp",
+        "width": 640,
+        "height": 416,
+        "bytes": 6224
+      },
+      {
+        "file": "20260318184938_644_41-1024.avif",
+        "width": 1024,
+        "height": 666,
+        "bytes": 9627
+      },
+      {
+        "file": "20260318184938_644_41-1024.webp",
+        "width": 1024,
+        "height": 666,
+        "bytes": 11764
+      },
+      {
+        "file": "20260318184938_644_41-1600.avif",
+        "width": 1600,
+        "height": 1041,
+        "bytes": 15042
+      },
+      {
+        "file": "20260318184938_644_41-1600.webp",
+        "width": 1600,
+        "height": 1041,
+        "bytes": 22122
+      },
+      {
+        "file": "20260318184938_644_41-2400.avif",
+        "width": 2400,
+        "height": 1561,
+        "bytes": 27624
+      },
+      {
+        "file": "20260318184938_644_41-2400.webp",
+        "width": 2400,
+        "height": 1561,
+        "bytes": 42356
+      }
+    ],
+    "fallback": {
+      "file": "20260318184938_644_41-1600.jpg",
+      "width": 1600,
+      "height": 1041,
+      "bytes": 57340
+    }
+  },
+  "factory/20260318184941_649_41.jpg": {
+    "source": "factory/20260318184941_649_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 6000,
+    "height": 4000,
+    "source_bytes": 12841711,
+    "variants": [
+      {
+        "file": "20260318184941_649_41-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 27237
+      },
+      {
+        "file": "20260318184941_649_41-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 44364
+      },
+      {
+        "file": "20260318184941_649_41-1024.avif",
+        "width": 1024,
+        "height": 683,
+        "bytes": 50749
+      },
+      {
+        "file": "20260318184941_649_41-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 85282
+      },
+      {
+        "file": "20260318184941_649_41-1600.avif",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 94140
+      },
+      {
+        "file": "20260318184941_649_41-1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 155922
+      },
+      {
+        "file": "20260318184941_649_41-2400.avif",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 169375
+      },
+      {
+        "file": "20260318184941_649_41-2400.webp",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 274864
+      }
+    ],
+    "fallback": {
+      "file": "20260318184941_649_41-1600.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 264957
+    }
+  },
+  "factory/20260318184942_650_41.jpg": {
+    "source": "factory/20260318184942_650_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 6000,
+    "height": 4000,
+    "source_bytes": 9154258,
+    "variants": [
+      {
+        "file": "20260318184942_650_41-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 16226
+      },
+      {
+        "file": "20260318184942_650_41-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 22250
+      },
+      {
+        "file": "20260318184942_650_41-1024.avif",
+        "width": 1024,
+        "height": 683,
+        "bytes": 26410
+      },
+      {
+        "file": "20260318184942_650_41-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 37594
+      },
+      {
+        "file": "20260318184942_650_41-1600.avif",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 42809
+      },
+      {
+        "file": "20260318184942_650_41-1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 63864
+      },
+      {
+        "file": "20260318184942_650_41-2400.avif",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 69278
+      },
+      {
+        "file": "20260318184942_650_41-2400.webp",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 107788
+      }
+    ],
+    "fallback": {
+      "file": "20260318184942_650_41-1600.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 137534
+    }
+  },
+  "factory/20260318184939_645_41.jpg": {
+    "source": "factory/20260318184939_645_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 6000,
+    "height": 4000,
+    "source_bytes": 8892886,
+    "variants": [
+      {
+        "file": "20260318184939_645_41-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 8416
+      },
+      {
+        "file": "20260318184939_645_41-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 9098
+      },
+      {
+        "file": "20260318184939_645_41-1024.avif",
+        "width": 1024,
+        "height": 683,
+        "bytes": 12183
+      },
+      {
+        "file": "20260318184939_645_41-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 16112
+      },
+      {
+        "file": "20260318184939_645_41-1600.avif",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 18972
+      },
+      {
+        "file": "20260318184939_645_41-1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 28276
+      },
+      {
+        "file": "20260318184939_645_41-2400.avif",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 30402
+      },
+      {
+        "file": "20260318184939_645_41-2400.webp",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 49342
+      }
+    ],
+    "fallback": {
+      "file": "20260318184939_645_41-1600.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 65299
+    }
+  },
+  "factory/20260318184931_635_41.jpg": {
+    "source": "factory/20260318184931_635_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 6000,
+    "height": 4000,
+    "source_bytes": 7796414,
+    "variants": [
+      {
+        "file": "20260318184931_635_41-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 11726
+      },
+      {
+        "file": "20260318184931_635_41-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 21378
+      },
+      {
+        "file": "20260318184931_635_41-1024.avif",
+        "width": 1024,
+        "height": 683,
+        "bytes": 19073
+      },
+      {
+        "file": "20260318184931_635_41-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 38334
+      },
+      {
+        "file": "20260318184931_635_41-1600.avif",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 33366
+      },
+      {
+        "file": "20260318184931_635_41-1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 67232
+      },
+      {
+        "file": "20260318184931_635_41-2400.avif",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 59282
+      },
+      {
+        "file": "20260318184931_635_41-2400.webp",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 115474
+      }
+    ],
+    "fallback": {
+      "file": "20260318184931_635_41-1600.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 168936
+    }
+  },
+  "factory/20260318184941_648_41.jpg": {
+    "source": "factory/20260318184941_648_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 6000,
+    "height": 4000,
+    "source_bytes": 11489661,
+    "variants": [
+      {
+        "file": "20260318184941_648_41-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 24932
+      },
+      {
+        "file": "20260318184941_648_41-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 40748
+      },
+      {
+        "file": "20260318184941_648_41-1024.avif",
+        "width": 1024,
+        "height": 683,
+        "bytes": 45504
+      },
+      {
+        "file": "20260318184941_648_41-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 75714
+      },
+      {
+        "file": "20260318184941_648_41-1600.avif",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 82613
+      },
+      {
+        "file": "20260318184941_648_41-1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 138140
+      },
+      {
+        "file": "20260318184941_648_41-2400.avif",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 144031
+      },
+      {
+        "file": "20260318184941_648_41-2400.webp",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 230546
+      }
+    ],
+    "fallback": {
+      "file": "20260318184941_648_41-1600.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 256219
+    }
+  },
+  "factory/20260318184930_634_41.jpg": {
+    "source": "factory/20260318184930_634_41.jpg",
+    "kind": "photo",
+    "alpha": false,
+    "width": 6000,
+    "height": 4000,
+    "source_bytes": 9227104,
+    "variants": [
+      {
+        "file": "20260318184930_634_41-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 20053
+      },
+      {
+        "file": "20260318184930_634_41-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 28314
+      },
+      {
+        "file": "20260318184930_634_41-1024.avif",
+        "width": 1024,
+        "height": 683,
+        "bytes": 33498
+      },
+      {
+        "file": "20260318184930_634_41-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 50632
+      },
+      {
+        "file": "20260318184930_634_41-1600.avif",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 58307
+      },
+      {
+        "file": "20260318184930_634_41-1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "bytes": 88092
+      },
+      {
+        "file": "20260318184930_634_41-2400.avif",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 97337
+      },
+      {
+        "file": "20260318184930_634_41-2400.webp",
+        "width": 2400,
+        "height": 1600,
+        "bytes": 148500
+      }
+    ],
+    "fallback": {
+      "file": "20260318184930_634_41-1600.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 180742
+    }
+  },
+  "factory/R5_L6212.png": {
+    "source": "factory/R5_L6212.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 1660168,
+    "variants": [
+      {
+        "file": "R5_L6212-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 1816
+      },
+      {
+        "file": "R5_L6212-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 2800
+      },
+      {
+        "file": "R5_L6212-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 2948
+      },
+      {
+        "file": "R5_L6212-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 6454
+      },
+      {
+        "file": "R5_L6212-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 5302
+      },
+      {
+        "file": "R5_L6212-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 10950
+      },
+      {
+        "file": "R5_L6212-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 7837
+      },
+      {
+        "file": "R5_L6212-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 17352
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6212-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 116102
+    }
+  },
+  "factory/R5_L6178.png": {
+    "source": "factory/R5_L6178.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 4186615,
+    "variants": [
+      {
+        "file": "R5_L6178-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 3303
+      },
+      {
+        "file": "R5_L6178-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 4938
+      },
+      {
+        "file": "R5_L6178-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 5428
+      },
+      {
+        "file": "R5_L6178-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 9276
+      },
+      {
+        "file": "R5_L6178-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 10065
+      },
+      {
+        "file": "R5_L6178-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 15710
+      },
+      {
+        "file": "R5_L6178-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 16670
+      },
+      {
+        "file": "R5_L6178-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 24986
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6178-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 206373
+    }
+  },
+  "factory/R5_L6223.png": {
+    "source": "factory/R5_L6223.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 1287233,
+    "variants": [
+      {
+        "file": "R5_L6223-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 2457
+      },
+      {
+        "file": "R5_L6223-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 3474
+      },
+      {
+        "file": "R5_L6223-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 4140
+      },
+      {
+        "file": "R5_L6223-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 6396
+      },
+      {
+        "file": "R5_L6223-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 6906
+      },
+      {
+        "file": "R5_L6223-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 10776
+      },
+      {
+        "file": "R5_L6223-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 9301
+      },
+      {
+        "file": "R5_L6223-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 16528
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6223-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 87577
+    }
+  },
+  "factory/R5_L6200.png": {
+    "source": "factory/R5_L6200.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 3366592,
+    "variants": [
+      {
+        "file": "R5_L6200-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 2060
+      },
+      {
+        "file": "R5_L6200-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 2464
+      },
+      {
+        "file": "R5_L6200-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 3371
+      },
+      {
+        "file": "R5_L6200-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 4774
+      },
+      {
+        "file": "R5_L6200-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 6279
+      },
+      {
+        "file": "R5_L6200-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 8370
+      },
+      {
+        "file": "R5_L6200-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 10686
+      },
+      {
+        "file": "R5_L6200-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 15140
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6200-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 141186
+    }
+  },
+  "factory/R5_L6220.png": {
+    "source": "factory/R5_L6220.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 1620950,
+    "variants": [
+      {
+        "file": "R5_L6220-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 2427
+      },
+      {
+        "file": "R5_L6220-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 3772
+      },
+      {
+        "file": "R5_L6220-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 4259
+      },
+      {
+        "file": "R5_L6220-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 7476
+      },
+      {
+        "file": "R5_L6220-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 7547
+      },
+      {
+        "file": "R5_L6220-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 12650
+      },
+      {
+        "file": "R5_L6220-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 10455
+      },
+      {
+        "file": "R5_L6220-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 19038
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6220-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 129387
+    }
+  },
+  "slide-view/R5_L6213.png": {
+    "source": "slide-view/R5_L6213.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 5268089,
+    "variants": [
+      {
+        "file": "R5_L6213-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 8643
+      },
+      {
+        "file": "R5_L6213-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 9792
+      },
+      {
+        "file": "R5_L6213-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 15136
+      },
+      {
+        "file": "R5_L6213-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 17934
+      },
+      {
+        "file": "R5_L6213-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 24940
+      },
+      {
+        "file": "R5_L6213-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 29506
+      },
+      {
+        "file": "R5_L6213-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 35636
+      },
+      {
+        "file": "R5_L6213-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 42494
+      },
+      {
+        "file": "R5_L6213-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 58874
+      },
+      {
+        "file": "R5_L6213-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 73728
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6213-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 302978
+    }
+  },
+  "slide-view/R5_L6202.png": {
+    "source": "slide-view/R5_L6202.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 12930891,
+    "variants": [
+      {
+        "file": "R5_L6202-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 8658
+      },
+      {
+        "file": "R5_L6202-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 9856
+      },
+      {
+        "file": "R5_L6202-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 18810
+      },
+      {
+        "file": "R5_L6202-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 19598
+      },
+      {
+        "file": "R5_L6202-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 41511
+      },
+      {
+        "file": "R5_L6202-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 46238
+      },
+      {
+        "file": "R5_L6202-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 83757
+      },
+      {
+        "file": "R5_L6202-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 97232
+      },
+      {
+        "file": "R5_L6202-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 221804
+      },
+      {
+        "file": "R5_L6202-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 263254
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6202-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 551053
+    }
+  },
+  "slide-view/R5_L6226.png": {
+    "source": "slide-view/R5_L6226.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 9995896,
+    "variants": [
+      {
+        "file": "R5_L6226-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 8771
+      },
+      {
+        "file": "R5_L6226-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 10088
+      },
+      {
+        "file": "R5_L6226-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 18965
+      },
+      {
+        "file": "R5_L6226-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 21768
+      },
+      {
+        "file": "R5_L6226-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 41058
+      },
+      {
+        "file": "R5_L6226-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 48824
+      },
+      {
+        "file": "R5_L6226-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 74504
+      },
+      {
+        "file": "R5_L6226-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 88054
+      },
+      {
+        "file": "R5_L6226-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 163948
+      },
+      {
+        "file": "R5_L6226-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 188252
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6226-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 583485
+    }
+  },
+  "slide-view/R5_L6187.png": {
+    "source": "slide-view/R5_L6187.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 5456,
+    "height": 5456,
+    "source_bytes": 9969852,
+    "variants": [
+      {
+        "file": "R5_L6187-480.avif",
+        "width": 480,
+        "height": 480,
+        "bytes": 9357
+      },
+      {
+        "file": "R5_L6187-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 10238
+      },
+      {
+        "file": "R5_L6187-800.avif",
+        "width": 800,
+        "height": 800,
+        "bytes": 16610
+      },
+      {
+        "file": "R5_L6187-800.webp",
+        "width": 800,
+        "height": 800,
+        "bytes": 17950
+      },
+      {
+        "file": "R5_L6187-1200.avif",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 27844
+      },
+      {
+        "file": "R5_L6187-1200.webp",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 30140
+      },
+      {
+        "file": "R5_L6187-1600.avif",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 42251
+      },
+      {
+        "file": "R5_L6187-1600.webp",
+        "width": 1600,
+        "height": 1600,
+        "bytes": 46012
+      },
+      {
+        "file": "R5_L6187-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 82793
+      },
+      {
+        "file": "R5_L6187-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 94930
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6187-1200.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 386710
+    }
+  },
+  "tomography/R5_L6234_trimmed.png": {
+    "source": "tomography/R5_L6234_trimmed.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 1472,
+    "height": 608,
+    "source_bytes": 289041,
+    "variants": [
+      {
+        "file": "R5_L6234_trimmed-480.avif",
+        "width": 480,
+        "height": 198,
+        "bytes": 6296
+      },
+      {
+        "file": "R5_L6234_trimmed-480.webp",
+        "width": 480,
+        "height": 198,
+        "bytes": 9222
+      },
+      {
+        "file": "R5_L6234_trimmed-960.avif",
+        "width": 960,
+        "height": 397,
+        "bytes": 13842
+      },
+      {
+        "file": "R5_L6234_trimmed-960.webp",
+        "width": 960,
+        "height": 397,
+        "bytes": 20070
+      },
+      {
+        "file": "R5_L6234_trimmed-1472.avif",
+        "width": 1472,
+        "height": 608,
+        "bytes": 27225
+      },
+      {
+        "file": "R5_L6234_trimmed-1472.webp",
+        "width": 1472,
+        "height": 608,
+        "bytes": 17690
+      }
+    ],
+    "fallback": {
+      "file": "R5_L6234_trimmed-1472.png",
+      "width": 1472,
+      "height": 608,
+      "bytes": 247773
+    }
+  },
+  "factory/20260325065243_32_99_transparent.png": {
+    "source": "factory/20260325065243_32_99_transparent.png",
+    "kind": "product",
+    "alpha": true,
+    "width": 544,
+    "height": 438,
+    "source_bytes": 22704,
+    "variants": [
+      {
+        "file": "20260325065243_32_99_transparent-544.avif",
+        "width": 544,
+        "height": 438,
+        "bytes": 12219
+      },
+      {
+        "file": "20260325065243_32_99_transparent-544.webp",
+        "width": 544,
+        "height": 438,
+        "bytes": 13822
+      }
+    ],
+    "fallback": {
+      "file": "20260325065243_32_99_transparent-544.png",
+      "width": 544,
+      "height": 438,
+      "bytes": 29404
+    }
+  }
+}

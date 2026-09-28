@@ -10,6 +10,7 @@ from playwright.sync_api import sync_playwright
 
 
 def reveal_page(page) -> None:
+    page.evaluate("document.documentElement.style.scrollBehavior = 'auto'")
     height = page.evaluate("document.documentElement.scrollHeight")
     viewport = page.evaluate("window.innerHeight")
     for position in range(0, height, max(1, viewport // 2)):
@@ -35,10 +36,16 @@ def screenshot_set(browser, url: str, out: Path, version: str, view: str,
         f"{version}-{view}-first-screen.png",
         f"{version}-{view}-full-page.png",
         f"{version}-{view}-profile-area.png",
+        f"{version}-{view}-design-area.png",
+        f"{version}-{view}-performance-area.png",
+        f"{version}-{view}-footer-area.png",
     ]
     page.screenshot(path=str(out / paths[0]))
     page.screenshot(path=str(out / paths[1]), full_page=True)
     page.locator("#product-technology").screenshot(path=str(out / paths[2]))
+    page.locator(".design-scene").screenshot(path=str(out / paths[3]))
+    page.locator(".performance-scene").screenshot(path=str(out / paths[4]))
+    page.locator(".site-footer").screenshot(path=str(out / paths[5]))
     context.close()
     return paths
 

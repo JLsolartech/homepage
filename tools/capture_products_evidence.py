@@ -1,100 +1,143 @@
-"""Capture Products page screenshots and selection/lightbox interaction recordings."""
+"""Capture matched Products A/B screenshots and real-scroll recordings."""
 from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
+import subprocess
 
 from playwright.sync_api import sync_playwright
 
 
-def capture(browser, base_url: str, out: Path, label: str, viewport: dict[str, int], mobile=False):
-    video_dir = out / f"video-{label}"
-    options = {
-        "viewport": viewport,
-        "record_video_dir": str(video_dir),
-        "record_video_size": viewport,
-    }
-    if mobile:
-        options.update(is_mobile=True, has_touch=True, device_scale_factor=2)
+def reveal_page(page) -> None:
+    height = page.evaluate("document.documentElement.scrollHeight")
+    viewport = page.evaluate("window.innerHeight")
+    for position in range(0, height, max(1, viewport // 2)):
+        page.evaluate("(y) => window.scrollTo(0, y)", position)
+        page.wait_for_timeout(120)
+    page.evaluate("window.scrollTo(0, 0)")
+    page.wait_for_timeout(300)
 
-    context = browser.new_context(**options)
+
+def screenshot_set(browser, url: str, out: Path, version: str, view: str,
+                   viewport: dict[str, int], mobile: bool) -> list[str]:
+    context = browser.new_context(
+        viewport=viewport,
+        is_mobile=mobile,
+        has_touch=mobile,
+        device_scale_factor=2 if mobile else 1,
+    )
     page = context.new_page()
-    page.goto(f"{base_url}/products/", wait_until="networkidle")
-    initial_images = page.evaluate(
-        """() => performance.getEntriesByType('resource')
-          .filter((entry) => entry.name.includes('/assets/optimized/'))
-          .map((entry) => ({file: entry.name.split('/').pop(), encoded_bytes: entry.encodedBodySize,
-                            transferred_bytes: entry.transferSize}))"""
-    )
-    page.screenshot(path=str(out / f"products-{label}-full.png"), full_page=True)
+    page.goto(f"{url.rstrip('/')}/products/", wait_until="networkidle")
+    reveal_page(page)
 
-    page.locator("[data-product-sample]").nth(1).click()
-    page.wait_for_timeout(250)
-    page.screenshot(path=str(out / f"products-{label}-silver-sample.png"), full_page=True)
+    paths = [
+        f"{version}-{view}-first-screen.png",
+        f"{version}-{view}-full-page.png",
+        f"{version}-{view}-profile-area.png",
+    ]
+    page.screenshot(path=str(out / paths[0]))
+    page.screenshot(path=str(out / paths[1]), full_page=True)
+    page.locator("#product-technology").screenshot(path=str(out / paths[2]))
+    context.close()
+    return paths
 
-    page.locator("[data-product-lightbox-link]").click()
-    page.wait_for_function(
-        "() => { const img = document.querySelector('[data-product-lightbox-image]'); return img.complete && img.naturalWidth > 0 && /R5_L6202-(1600|2400)\\.(avif|webp)$/.test(img.currentSrc); }",
-        timeout=15000)
-    page.screenshot(path=str(out / f"products-{label}-lightbox.png"))
-    detail_images = page.evaluate(
-        """() => performance.getEntriesByType('resource')
-          .filter((entry) => /R5_L6202-(1600|2400)\\.(avif|webp)$/.test(entry.name))
-          .map((entry) => ({file: entry.name.split('/').pop(), encoded_bytes: entry.encodedBodySize,
-                            transferred_bytes: entry.transferSize}))"""
+
+def scroll_recording(browser, url: str, out: Path, version: str, view: str,
+                     viewport: dict[str, int], mobile: bool) -> str:
+    video_dir = out / f"video-{version}-{view}"
+    video_dir.mkdir(parents=True, exist_ok=True)
+    context = browser.new_context(
+        viewport=viewport,
+        is_mobile=mobile,
+        has_touch=mobile,
+        device_scale_factor=2 if mobile else 1,
+        record_video_dir=str(video_dir),
+        record_video_size=viewport,
     )
-    page.keyboard.press("Escape")
+    page = context.new_page()
+    page.goto(f"{url.rstrip('/')}/products/", wait_until="networkidle")
+    page.wait_for_timeout(500)
 
     if mobile:
-        for _ in range(10):
-            page.evaluate("window.scrollBy(0, Math.round(innerHeight * 0.55))")
-            page.wait_for_timeout(90)
+        session = context.new_cdp_session(page)
+        x = viewport["width"] / 2
+        y = viewport["height"] * 0.72
+        for direction in (-1, 1):
+            for _ in range(6):
+                session.send("Input.dispatchTouchEvent", {
+                    "type": "touchStart",
+                    "touchPoints": [{"x": x, "y": y}],
+                })
+                for step in range(1, 9):
+                    session.send("Input.dispatchTouchEvent", {
+                        "type": "touchMove",
+                        "touchPoints": [{"x": x, "y": y + direction * step * 48}],
+                    })
+                    page.wait_for_timeout(16)
+                session.send("Input.dispatchTouchEvent", {
+                    "type": "touchEnd",
+                    "touchPoints": [],
+                })
+                page.wait_for_timeout(180)
+        session.detach()
     else:
-        for _ in range(10):
-            page.mouse.wheel(0, 420)
-            page.wait_for_timeout(90)
+        for delta in (650, 650, 650, 650, 650, 650, -650, -650, -650, -650, -650, -650):
+            page.mouse.wheel(0, delta)
+            page.wait_for_timeout(220)
 
-    video_path = page.video.path()
+    video = page.video.path()
     context.close()
-    target = out / f"products-{label}-interaction.webm"
-    Path(video_path).replace(target)
+    target = out / f"{version}-{view}-scroll.webm"
+    Path(video).replace(target)
     video_dir.rmdir()
-    return {
-        "recording": target.name,
-        "screenshots": [f"products-{label}-full.png", f"products-{label}-silver-sample.png",
-                        f"products-{label}-lightbox.png"],
-        "initial_optimized_assets": initial_images,
-        "on_demand_detail_assets": detail_images,
-    }
+    return target.name
 
 
-def main():
+def capture_version(browser, url: str, out: Path, version: str) -> dict:
+    result = {"url": url, "screenshots": {}, "recordings": {}}
+    for view, viewport, mobile in (
+        ("desktop-1440x900", {"width": 1440, "height": 900}, False),
+        ("mobile-390x844", {"width": 390, "height": 844}, True),
+    ):
+        result["screenshots"][view] = screenshot_set(
+            browser, url, out, version, view, viewport, mobile)
+        result["recordings"][view] = scroll_recording(
+            browser, url, out, version, view, viewport, mobile)
+    return result
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--base-url", default="http://127.0.0.1:4173")
+    parser.add_argument("--before-url", default="http://127.0.0.1:4174")
+    parser.add_argument("--after-url", default="http://127.0.0.1:4173")
     parser.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
-        desktop = capture(browser, args.base_url, args.out, "desktop-1440",
-                          {"width": 1440, "height": 900})
-        mobile = capture(browser, args.base_url, args.out, "mobile-390",
-                         {"width": 390, "height": 844}, mobile=True)
+        evidence = {
+            "comparison": {
+                "A": "c69080fd84dc4c7f629f1247644841bbbf80ca7f",
+                "B": subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], text=True).strip(),
+            },
+            "viewports": {
+                "desktop": "1440x900",
+                "mobile": "390x844 (emulated; not a physical phone)",
+            },
+            "browser": "Playwright Chromium",
+            "A": capture_version(browser, args.before_url, args.out, "A-before"),
+            "B": capture_version(browser, args.after_url, args.out, "B-after"),
+            "limitations": ["Mobile uses browser emulation, not physical-device testing."],
+        }
         browser.close()
 
-    manifest = {
-        "preview": args.base_url,
-        "browser": "Playwright Chromium",
-        "viewports": {"desktop": "1440x900", "mobile": "390x844 (emulated)"},
-        "desktop": desktop,
-        "mobile": mobile,
-        "limitations": ["Mobile is emulated, not a physical device."],
-    }
-    (args.out / "products-evidence.json").write_text(
-        json.dumps(manifest, indent=2), encoding="utf-8")
-    print(json.dumps(manifest, indent=2))
+    manifest = args.out / "products-ab-evidence.json"
+    manifest.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
+    print(json.dumps(evidence, indent=2))
+    print(f"Evidence manifest: {manifest}")
 
 
 if __name__ == "__main__":

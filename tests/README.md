@@ -17,11 +17,19 @@ python -m venv .venv
 # regenerate responsive images from the untouched originals in docs/assets/
 .venv\Scripts\python tools\optimize_images.py
 
-# screenshots, scroll recordings and before/after load comparison
+# homepage screenshots, scroll recordings and load comparison
 .venv\Scripts\python tools\capture_evidence.py --out evidence --baseline-root <baseline docs folder>
 
-# Products page screenshots and sample/lightbox interaction recordings
-.venv\Scripts\python tools\capture_products_evidence.py --out evidence\products
+# isolated A/B Products previews (A is the pre-redesign c69080f version)
+git worktree add ..\products-before c69080fd84dc4c7f629f1247644841bbbf80ca7f
+# In a second terminal, from ..\products-before:
+python tools\serve.py --port 4174
+# From this feature worktree in another terminal:
+python tools\serve.py --port 4173
+# Open A at http://127.0.0.1:4174/products/ and B at http://127.0.0.1:4173/products/
+
+# matched Products A/B screenshots (first screen, profile area, full page) and real-scroll recordings
+python tools\capture_products_evidence.py --before-url http://127.0.0.1:4174 --after-url http://127.0.0.1:4173 --out evidence\products-ab
 ```
 
 Browser emulation (viewports, touch, reduced motion, throttling) is not a substitute for testing on real phones.

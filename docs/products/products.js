@@ -2,75 +2,38 @@
   "use strict";
 
   const page = document.querySelector(".page-products");
-  const picker = document.querySelector("[data-product-picker]");
-  const mainPicture = document.querySelector("[data-product-main-picture]");
-  const mainImage = document.querySelector("[data-product-main-image]");
-  const mainLink = document.querySelector("[data-product-lightbox-link]");
-  const title = document.querySelector("[data-product-sample-title]");
-  const copy = document.querySelector("[data-product-sample-copy]");
   const dialog = document.querySelector("[data-product-lightbox]");
-  const dialogImage = document.querySelector("[data-product-lightbox-image]");
-  const dialogTitle = document.querySelector("#products-lightbox-title");
-  const closeButton = document.querySelector("[data-product-lightbox-close]");
-  const lightboxViewport = document.querySelector("[data-lightbox-viewport]");
-  const zoomInButton = document.querySelector("[data-zoom-in]");
-  const zoomOutButton = document.querySelector("[data-zoom-out]");
-  const zoomResetButton = document.querySelector("[data-zoom-reset]");
-  const zoomStatus = document.querySelector("[data-zoom-status]");
-
-  if (!page || !picker || !mainPicture || !mainImage || !mainLink ||
-      !title || !copy || !dialog || !dialogImage || !dialogTitle || !closeButton ||
-      !lightboxViewport || !zoomInButton || !zoomOutButton || !zoomResetButton || !zoomStatus) {
+  if (!page || !dialog || typeof dialog.showModal !== "function") {
     return;
   }
 
-  const avifSource = mainPicture.querySelector('source[type="image/avif"]');
-  const webpSource = mainPicture.querySelector('source[type="image/webp"]');
+  const dialogImage = dialog.querySelector("[data-product-lightbox-image]");
+  const dialogTitle = dialog.querySelector("#products-lightbox-title");
+  const closeButton = dialog.querySelector("[data-product-lightbox-close]");
+  const lightboxViewport = dialog.querySelector("[data-lightbox-viewport]");
+  const zoomInButton = dialog.querySelector("[data-zoom-in]");
+  const zoomOutButton = dialog.querySelector("[data-zoom-out]");
+  const zoomResetButton = dialog.querySelector("[data-zoom-reset]");
+  const zoomStatus = dialog.querySelector("[data-zoom-status]");
   const lightboxAvif = dialog.querySelector("[data-product-lightbox-avif]");
   const lightboxWebp = dialog.querySelector("[data-product-lightbox-webp]");
-  const samples = Array.from(picker.querySelectorAll("[data-product-sample]"));
+  const imageLinks = Array.from(page.querySelectorAll("[data-product-lightbox-link]"));
+
+  if (!dialogImage || !dialogTitle || !closeButton || !lightboxViewport ||
+      !zoomInButton || !zoomOutButton || !zoomResetButton || !zoomStatus ||
+      !lightboxAvif || !lightboxWebp || imageLinks.length === 0) {
+    return;
+  }
+
   const selectedFile = /^[A-Z0-9_]+$/;
   let lightboxTrigger = null;
-  let activeSample = "R5_L6213";
   let zoom = 1;
   let panX = 0;
   let panY = 0;
   let dragStart = null;
   let highResolutionFallbackUsed = false;
 
-  if (!avifSource || !webpSource || !lightboxAvif || !lightboxWebp || samples.length === 0) {
-    return;
-  }
-
   const asset = (file, extension) => `../assets/optimized/${file}-${extension}`;
-  const srcset = (file, extension, widths) =>
-    widths.map((width) => `${asset(file, `${width}.${extension}`)} ${width}w`).join(", ");
-
-  const selectSample = (button) => {
-    const file = button.dataset.productSample;
-    if (!selectedFile.test(file)) {
-      console.error(`Invalid product sample reference: ${file}`);
-      return;
-    }
-
-    const alt = button.dataset.sampleAlt;
-    const label = button.dataset.sampleLabel;
-    avifSource.srcset = srcset(file, "avif", [480, 800, 1200]);
-    webpSource.srcset = srcset(file, "webp", [480, 800, 1200]);
-    mainImage.src = asset(file, "1200.png");
-    mainImage.alt = alt;
-    mainLink.href = asset(file, "1600.webp");
-    mainLink.setAttribute("aria-label", `Open larger image: ${label.toLowerCase()}`);
-    title.textContent = label;
-    copy.textContent = button.dataset.sampleCopy;
-    dialogTitle.textContent = label;
-    dialogImage.alt = alt;
-    activeSample = file;
-
-    for (const sample of samples) {
-      sample.setAttribute("aria-pressed", String(sample === button));
-    }
-  };
 
   const clampPan = () => {
     const maxX = Math.max(0, (dialogImage.offsetWidth * zoom - lightboxViewport.clientWidth) / 2);
@@ -104,8 +67,27 @@
     updateZoom();
   };
 
-  for (const sample of samples) {
-    sample.addEventListener("click", () => selectSample(sample));
+  for (const link of imageLinks) {
+    link.addEventListener("click", (event) => {
+      const file = link.dataset.productFile;
+      const thumbnail = link.querySelector("img");
+      if (!selectedFile.test(file) || !thumbnail) {
+        console.error("The selected product profile image could not be opened.");
+        return;
+      }
+
+      event.preventDefault();
+      lightboxTrigger = link;
+      dialogTitle.textContent = link.dataset.productLabel || "Profile image";
+      dialogImage.alt = thumbnail.alt;
+      lightboxAvif.srcset = `${asset(file, "1600.avif")} 1600w, ${asset(file, "2400.avif")} 2400w`;
+      lightboxWebp.srcset = `${asset(file, "1600.webp")} 1600w, ${asset(file, "2400.webp")} 2400w`;
+      dialogImage.src = thumbnail.currentSrc || thumbnail.src;
+      highResolutionFallbackUsed = false;
+      resetZoom();
+      dialog.showModal();
+      closeButton.focus();
+    });
   }
 
   zoomInButton.addEventListener("click", () => changeZoom(0.25));
@@ -141,42 +123,30 @@
 
   dialogImage.addEventListener("load", updateZoom);
   dialogImage.addEventListener("error", () => {
-    if (!dialog.open || !mainImage.currentSrc || highResolutionFallbackUsed) {
+    if (!dialog.open || !lightboxTrigger || highResolutionFallbackUsed) {
       if (dialog.open && highResolutionFallbackUsed) {
-        console.error("The product sample image and its display-size fallback could not be loaded.");
+        console.error("The profile image and its display-size fallback could not be loaded.");
       }
       return;
     }
     highResolutionFallbackUsed = true;
     lightboxAvif.removeAttribute("srcset");
     lightboxWebp.removeAttribute("srcset");
-    dialogImage.src = mainImage.currentSrc;
+    dialogImage.src = lightboxTrigger.querySelector("img").currentSrc;
     updateZoom();
   });
 
   closeButton.addEventListener("click", () => dialog.close());
   dialog.addEventListener("close", () => {
     resetZoom();
+    lightboxAvif.removeAttribute("srcset");
+    lightboxWebp.removeAttribute("srcset");
+    dialogImage.removeAttribute("src");
+    dialogImage.alt = "";
     if (lightboxTrigger && lightboxTrigger.isConnected) {
       lightboxTrigger.focus();
     }
     lightboxTrigger = null;
-  });
-
-  mainLink.addEventListener("click", (event) => {
-    if (typeof dialog.showModal !== "function") {
-      return;
-    }
-    event.preventDefault();
-    lightboxTrigger = mainLink;
-    dialogImage.src = mainImage.currentSrc || mainImage.src;
-    dialogImage.alt = mainImage.alt;
-    lightboxAvif.srcset = `${asset(activeSample, "1600.avif")} 1600w, ${asset(activeSample, "2400.avif")} 2400w`;
-    lightboxWebp.srcset = `${asset(activeSample, "1600.webp")} 1600w, ${asset(activeSample, "2400.webp")} 2400w`;
-    highResolutionFallbackUsed = false;
-    resetZoom();
-    dialog.showModal();
-    closeButton.focus();
   });
 
   dialog.addEventListener("click", (event) => {
@@ -185,6 +155,5 @@
     }
   });
 
-  picker.hidden = false;
   page.classList.add("products-interactive");
 })();

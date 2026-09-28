@@ -323,10 +323,27 @@ def test_keyboard_scroll_and_gallery_focus(ctx_factory, base_url, viewport_name)
     page.wait_for_function("(y0) => window.scrollY > y0", arg=y0, timeout=3000)
     y1 = settle(page)
     assert y1 > y0
+    page.evaluate(
+        """() => {
+          window.__endScrollFinished = false;
+          window.addEventListener("scrollend", () => { window.__endScrollFinished = true; }, { once: true });
+        }"""
+    )
     page.keyboard.press("End")
-    assert settle(page, 3000) >= max_scroll(page) - 2
+    page.wait_for_function(
+        "() => window.__endScrollFinished && Math.abs(window.scrollY - (document.documentElement.scrollHeight - window.innerHeight)) <= 2",
+        timeout=10000,
+    )
+    assert page.evaluate("window.scrollY") >= max_scroll(page) - 2
+    page.evaluate(
+        """() => {
+          window.__homeScrollFinished = false;
+          window.addEventListener("scrollend", () => { window.__homeScrollFinished = true; }, { once: true });
+        }"""
+    )
     page.keyboard.press("Home")
-    assert settle(page, 3000) == 0
+    page.wait_for_function("() => window.__homeScrollFinished && window.scrollY === 0", timeout=10000)
+    assert page.evaluate("window.scrollY") == 0
 
     stage = page.locator("[data-gallery]")
     # arrow keys without gallery focus do nothing to the gallery

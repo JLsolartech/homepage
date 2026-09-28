@@ -19,6 +19,9 @@ python -m venv .venv
 
 # screenshots, scroll recordings and before/after load comparison
 .venv\Scripts\python tools\capture_evidence.py --out evidence --baseline-root <baseline docs folder>
+
+# Products page screenshots and sample/lightbox interaction recordings
+.venv\Scripts\python tools\capture_products_evidence.py --out evidence\products
 ```
 
 Browser emulation (viewports, touch, reduced motion, throttling) is not a substitute for testing on real phones.

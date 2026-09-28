@@ -22,6 +22,7 @@ MANIFEST = ROOT / "tools" / "image-manifest.json"
 
 PHOTO_WIDTHS = [640, 1024, 1600, 2400]
 PRODUCT_WIDTHS = [480, 800, 1200, 1600]
+PRODUCT_DETAIL_WIDTHS = [480, 800, 1200, 1600, 2400]
 
 # source path (relative to docs/assets) -> (kind, widths, fallback width)
 SOURCES: dict[str, tuple[str, list[int], int]] = {
@@ -37,10 +38,10 @@ SOURCES: dict[str, tuple[str, list[int], int]] = {
     "factory/R5_L6223.png": ("product", PRODUCT_WIDTHS, 1200),
     "factory/R5_L6200.png": ("product", PRODUCT_WIDTHS, 1200),
     "factory/R5_L6220.png": ("product", PRODUCT_WIDTHS, 1200),
-    "slide-view/R5_L6213.png": ("product", PRODUCT_WIDTHS, 1200),
-    "slide-view/R5_L6202.png": ("product", PRODUCT_WIDTHS, 1200),
-    "slide-view/R5_L6226.png": ("product", PRODUCT_WIDTHS, 1200),
-    "slide-view/R5_L6187.png": ("product", PRODUCT_WIDTHS, 1200),
+    "slide-view/R5_L6213.png": ("product", PRODUCT_DETAIL_WIDTHS, 1200),
+    "slide-view/R5_L6202.png": ("product", PRODUCT_DETAIL_WIDTHS, 1200),
+    "slide-view/R5_L6226.png": ("product", PRODUCT_DETAIL_WIDTHS, 1200),
+    "slide-view/R5_L6187.png": ("product", PRODUCT_DETAIL_WIDTHS, 1200),
     "tomography/R5_L6234_trimmed.png": ("product", [480, 960, 1472], 1472),
     "factory/20260325065243_32_99_transparent.png": ("product", [544], 544),
 }

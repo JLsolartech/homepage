@@ -822,6 +822,18 @@
         "width": 1600,
         "height": 1600,
         "bytes": 42494
+      },
+      {
+        "file": "R5_L6213-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 58874
+      },
+      {
+        "file": "R5_L6213-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 73728
       }
     ],
     "fallback": {
@@ -886,6 +898,18 @@
         "width": 1600,
         "height": 1600,
         "bytes": 97232
+      },
+      {
+        "file": "R5_L6202-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 221804
+      },
+      {
+        "file": "R5_L6202-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 263254
       }
     ],
     "fallback": {
@@ -950,6 +974,18 @@
         "width": 1600,
         "height": 1600,
         "bytes": 88054
+      },
+      {
+        "file": "R5_L6226-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 163948
+      },
+      {
+        "file": "R5_L6226-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 188252
       }
     ],
     "fallback": {
@@ -1014,6 +1050,18 @@
         "width": 1600,
         "height": 1600,
         "bytes": 46012
+      },
+      {
+        "file": "R5_L6187-2400.avif",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 82793
+      },
+      {
+        "file": "R5_L6187-2400.webp",
+        "width": 2400,
+        "height": 2400,
+        "bytes": 94930
       }
     ],
     "fallback": {

@@ -1583,6 +1583,392 @@ figcaption,
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
   }
+}
+
+/* Product catalog page */
+.page-products .products-main {
+  overflow-x: clip;
+  background: #080b0f;
+}
+
+.page-products .products-wrap {
+  width: var(--content-width);
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+.page-products .products-intro {
+  padding: clamp(7.25rem, 10vw, 9rem) 0 1.4rem;
+}
+
+.page-products .products-intro .eyebrow,
+.page-products .products-sample-copy .eyebrow,
+.page-products .products-details .eyebrow {
+  color: var(--silver);
+}
+
+.page-products .products-intro h1 {
+  max-width: 58rem;
+  margin: 0;
+  font-size: clamp(2.7rem, 5.5vw, 5rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.page-products .products-lead {
+  max-width: 42rem;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.65;
+}
+
+.page-products .products-showcase {
+  padding: 0.5rem 0 clamp(3.5rem, 7vw, 6rem);
+}
+
+.page-products .products-showcase-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(19rem, 0.72fr);
+  gap: clamp(1.75rem, 4vw, 4.5rem);
+  align-items: start;
+}
+
+.page-products .products-image-column {
+  min-width: 0;
+}
+
+.page-products .products-main-image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 22rem;
+  aspect-ratio: 1.34 / 1;
+  overflow: hidden;
+  background: #3b3f43;
+  outline-offset: 4px;
+}
+
+.page-products .products-main-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.page-products .products-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.page-products .products-enlarge-hint {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.55rem 0.75rem;
+  color: #fff;
+  background: rgba(5, 7, 10, 0.76);
+  font-size: 0.78rem;
+}
+
+.page-products .products-image-note,
+.page-products .products-catalog-note,
+.page-products .products-lightbox-note {
+  color: var(--soft);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.page-products .products-image-note {
+  margin: 0.7rem 0 0;
+}
+
+.page-products .products-selection-column {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: 0.1rem;
+}
+
+.page-products .products-picker[hidden],
+.page-products .products-sample-button[hidden] {
+  display: none;
+}
+
+.page-products.products-interactive .products-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.page-products .products-sample-button {
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(246, 248, 251, 0.16);
+  color: var(--muted);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+
+.page-products .products-sample-button:hover,
+.page-products .products-sample-button[aria-pressed="true"] {
+  border-color: rgba(216, 225, 234, 0.82);
+  color: var(--text);
+}
+
+.page-products .products-sample-button:focus-visible,
+.page-products .products-main-image:focus-visible,
+.page-products .products-lightbox-close:focus-visible,
+.page-products .products-lightbox-control:focus-visible {
+  outline: 2px solid var(--silver);
+  outline-offset: 3px;
+}
+
+.page-products .products-sample-button img {
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
+  object-fit: contain;
+  background: #3b3f43;
+}
+
+.page-products .products-sample-button span {
+  display: block;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.page-products .products-sample-copy h2,
+.page-products .products-details h2 {
+  margin: 0;
+  font-size: clamp(1.65rem, 3vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.page-products .products-sample-copy > p:not(.eyebrow) {
+  max-width: 34rem;
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.page-products .products-sample-copy .products-catalog-note {
+  margin-top: 0.8rem;
+}
+
+.page-products .products-details {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #0b0f14;
+}
+
+.page-products .products-details-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.page-products .products-details-copy p {
+  max-width: 45rem;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.page-products .products-details-copy .products-process-label {
+  margin-top: 1.25rem;
+  color: var(--text);
+}
+
+.page-products .products-process-label span {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--soft);
+  font-size: 0.8rem;
+}
+
+.page-products .products-process-label i {
+  padding-inline: 0.3rem;
+  color: var(--silver-deep);
+  font-style: normal;
+}
+
+.page-products .products-lightbox {
+  width: min(96vw, 78rem);
+  max-width: none;
+  max-height: 94vh;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  border: 1px solid rgba(246, 248, 251, 0.24);
+  color: var(--text);
+  background: #22272c;
+}
+
+.page-products .products-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.page-products .products-lightbox[open] {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.page-products .products-lightbox-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-products .products-lightbox-toolbar p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.page-products .products-lightbox-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.page-products .products-lightbox-control,
+.page-products .products-lightbox-close {
+  min-height: 2.6rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid rgba(246, 248, 251, 0.32);
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+}
+
+.page-products .products-lightbox-control:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.page-products .products-lightbox-controls output {
+  min-width: 3.4rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.page-products .products-lightbox-viewport {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: min(72vh, 56rem);
+  overflow: hidden;
+  background: #30353a;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.page-products .products-lightbox-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.page-products .products-lightbox-viewport picture {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.page-products .products-lightbox img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform-origin: center;
+  transition: transform 0.12s ease-out;
+  user-select: none;
+}
+
+.page-products .products-lightbox-note {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .page-products .products-showcase-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(17rem, 0.9fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-products .products-intro {
+    padding-top: 8.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .page-products .products-intro h1 {
+    font-size: clamp(2.35rem, 10vw, 3.6rem);
+  }
+
+  .page-products .products-showcase-grid,
+  .page-products .products-details-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-products .products-selection-column {
+    display: contents;
+  }
+
+  .page-products .products-picker {
+    order: 0;
+  }
+
+  .page-products .products-image-column {
+    order: -1;
+  }
+
+  .page-products .products-main-image {
+    min-height: 16rem;
+    aspect-ratio: 1.18 / 1;
+  }
+
+  .page-products .products-showcase {
+    padding-bottom: 2.5rem;
+  }
+
+  .page-products .products-details {
+    padding-block: 2.5rem;
+  }
+
+  .page-products .products-lightbox {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto 0 0;
+    border-bottom: 0;
+  }
+
+  .page-products .products-lightbox-viewport {
+    height: min(66vh, 42rem);
+  }
+
+  .page-products .products-lightbox-toolbar {
+    align-items: flex-start;
+  }
+
+  .page-products .products-lightbox-controls {
+    order: 1;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-products .products-sample-button,
+  .page-products .products-lightbox img {
+    transition: none;
+  }
 
   body {
     overflow-x: hidden;

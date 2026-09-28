@@ -51,7 +51,7 @@ def load_all_images(page):
     page.wait_for_load_state("networkidle")
     broken = page.evaluate(
         """async () => {
-            const imgs = Array.from(document.images);
+            const imgs = Array.from(document.images).filter((img) => img.currentSrc || img.getAttribute('src'));
             await Promise.all(imgs.map((img) => img.complete ? null : new Promise((r) => { img.onload = img.onerror = r; })));
             return imgs.filter((img) => !(img.complete && img.naturalWidth > 0)).map((img) => img.currentSrc || img.src);
         }"""
@@ -113,6 +113,152 @@ def test_navigation_and_legacy_redirects(ctx_factory, base_url, viewport_name):
         page.goto(base_url + legacy)
         page.wait_for_url(re.compile(target))
     probe.assert_clean()
+
+
+@pytest.mark.parametrize("vp", ["desktop-1440", "mobile-390"])
+def test_product_sample_selection_and_lightbox(ctx_factory, base_url, vp):
+    page = ctx_factory(vp).new_page()
+    probe = PageProbe(page)
+    page.goto(base_url + "/products/")
+
+    samples = page.locator("[data-product-sample]")
+    assert samples.count() == 4
+    assert samples.nth(0).get_attribute("aria-pressed") == "true"
+    samples.nth(1).click()
+    assert samples.nth(1).get_attribute("aria-pressed") == "true"
+    samples.nth(2).click()
+    samples.nth(3).click()
+    samples.nth(1).click()
+    assert sum(samples.nth(i).get_attribute("aria-pressed") == "true" for i in range(4)) == 1
+    assert page.locator("[data-product-sample-title]").inner_text() == "Silver profile sample"
+    image = page.locator("[data-product-main-image]")
+    page.wait_for_function(
+        "() => { const img = document.querySelector('[data-product-main-image]'); return /R5_L6202-(480|800|1200)\\.(avif|webp|png)$/.test(img.currentSrc); }",
+        timeout=10000)
+    assert "R5_L6202" in image.get_attribute("alt")
+    assert "R5_L6202" in page.locator("[data-product-main-picture] source").first.get_attribute("srcset")
+    assert page.locator("[data-product-lightbox-link]").get_attribute("href").endswith("R5_L6202-1600.webp")
+    assert not page.evaluate(
+        "() => performance.getEntriesByType('resource').some((entry) => /R5_L\\d+-(1600|2400)\\./.test(entry.name))"
+    ), "full-resolution variants should not load before the lightbox opens"
+
+    opener = page.locator("[data-product-lightbox-link]")
+    opener.click()
+    dialog = page.locator("[data-product-lightbox]")
+    assert dialog.evaluate("(el) => el.open")
+    assert "R5_L6202" in dialog.locator("img").get_attribute("alt")
+    page.wait_for_function(
+        "() => { const img = document.querySelector('[data-product-lightbox-image]'); return img.complete && img.naturalWidth > 0 && /R5_L6202-(1600|2400)\\.(avif|webp)$/.test(img.currentSrc); }",
+        timeout=10000)
+
+    page.emulate_media(reduced_motion="reduce")
+    assert page.locator("[data-product-sample]").first.evaluate(
+        "(el) => getComputedStyle(el).transitionDuration") == "0s"
+
+    page.get_by_role("button", name="Zoom in").click()
+    page.get_by_role("button", name="Zoom in").click()
+    assert page.locator("[data-zoom-status]").inner_text() == "150%"
+    viewport = page.locator("[data-lightbox-viewport]")
+    box = viewport.bounding_box()
+    page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    page.mouse.down()
+    page.mouse.move(box["x"] + box["width"] / 2 + 60, box["y"] + box["height"] / 2 + 60, steps=4)
+    page.mouse.up()
+    assert "translate3d(" in dialog.locator("img").get_attribute("style")
+    for _ in range(4):
+        page.get_by_role("button", name="Zoom in").click()
+    assert page.locator("[data-zoom-status]").inner_text() == "250%"
+    assert page.get_by_role("button", name="Zoom in").is_disabled()
+    page.get_by_role("button", name="Reset view").click()
+    assert page.locator("[data-zoom-status]").inner_text() == "100%"
+    assert page.get_by_role("button", name="Zoom out").is_disabled()
+
+    scroll_before_close = page.evaluate("window.scrollY")
+    page.keyboard.press("Escape")
+    assert not dialog.evaluate("(el) => el.open")
+    page.wait_for_function(
+        "document.activeElement === document.querySelector('[data-product-lightbox-link]')",
+        timeout=3000)
+    assert page.evaluate("window.scrollY") == scroll_before_close
+
+    opener.click()
+    dialog.locator("[data-product-lightbox-close]").click()
+    assert not dialog.evaluate("(el) => el.open")
+    page.wait_for_function(
+        "document.activeElement === document.querySelector('[data-product-lightbox-link]')",
+        timeout=3000)
+    assert page.evaluate("window.scrollY") == scroll_before_close
+    probe.assert_clean()
+
+
+def test_products_mobile_scroll_and_no_inquiry_ui(ctx_factory, base_url):
+    page = ctx_factory("mobile-390", is_mobile=False).new_page()
+    probe = PageProbe(page)
+    page.goto(base_url + "/products/")
+    assert no_horizontal_overflow(page)
+
+    picker = page.locator("[data-product-picker]")
+    picker.scroll_into_view_if_needed()
+    box = picker.bounding_box()
+    page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    before = page.evaluate("window.scrollY")
+    page.mouse.wheel(0, 360)
+    page.wait_for_function("(before) => window.scrollY > before", arg=before, timeout=3000)
+    assert no_horizontal_overflow(page)
+
+    assert page.locator("form").count() == 0
+    assert page.get_by_role("link", name=re.compile(r"request a quote|get pricing|contact sales", re.I)).count() == 0
+    assert page.get_by_role("navigation", name="Primary").get_by_role("link", name="Contact").count() == 1
+    assert no_horizontal_overflow(page)
+
+    if page.context.browser.browser_type.name == "chromium":
+        touch_page = ctx_factory("mobile-390").new_page()
+        touch_page.goto(base_url + "/products/")
+        image = touch_page.locator("[data-product-main-image]")
+        box = image.bounding_box()
+        x = box["x"] + box["width"] / 2
+        y = box["y"] + box["height"] / 2
+        before = touch_page.evaluate("window.scrollY")
+        cdp = touch_page.context.new_cdp_session(touch_page)
+        cdp.send("Input.dispatchTouchEvent", {"type": "touchStart", "touchPoints": [{"x": x, "y": y}]})
+        for i in range(1, 16):
+            cdp.send("Input.dispatchTouchEvent", {
+                "type": "touchMove",
+                "touchPoints": [{"x": x, "y": y - i * 24}],
+            })
+            touch_page.wait_for_timeout(16)
+        cdp.send("Input.dispatchTouchEvent", {"type": "touchEnd", "touchPoints": []})
+        touch_page.wait_for_function("(before) => window.scrollY > before + 120", arg=before, timeout=3000)
+        assert no_horizontal_overflow(touch_page)
+
+    probe.assert_clean()
+
+
+def test_products_high_resolution_image_falls_back(ctx_factory, base_url):
+    page = ctx_factory("desktop-1440").new_page()
+    page.route(re.compile(r"R5_L6213-(1600|2400)\.(avif|webp)$"),
+               lambda route: route.abort())
+    page.goto(base_url + "/products/")
+    main = page.locator("[data-product-main-image]")
+    assert main.evaluate("(img) => img.complete && img.naturalWidth > 0")
+    page.locator("[data-product-lightbox-link]").click()
+    dialog = page.locator("[data-product-lightbox]")
+    assert dialog.evaluate("(el) => el.open")
+    image = dialog.locator("img")
+    page.wait_for_function(
+        "() => { const img = document.querySelector('[data-product-lightbox-image]'); return img.complete && img.naturalWidth > 0; }",
+        timeout=10000)
+    assert image.evaluate("(img) => img.currentSrc") == main.evaluate("(img) => img.currentSrc")
+
+
+def test_products_content_visible_when_product_script_fails(ctx_factory, base_url):
+    page = ctx_factory("desktop-1440").new_page()
+    page.route(re.compile(r"/products\.js"), lambda route: route.abort())
+    page.goto(base_url + "/products/")
+    assert page.locator("h1").inner_text() == "Aluminum Frames for Solar Modules"
+    assert page.locator("[data-product-main-image]").is_visible()
+    assert page.locator("[data-product-picker]").is_hidden()
+    assert page.locator("[data-product-sample-copy]").is_visible()
 
 
 def test_wheel_scroll_passes_gallery_without_trap(ctx_factory, base_url, viewport_name):
